@@ -69,7 +69,7 @@ def open_camera():
         while cap.isOpened():
             success, image = cap.read()
             if not success:
-                print("On ignore le cadre de caméra vide")
+                print("On ignore le cadre de camera vide")
                 continue
 
             # Conversion en RGB pour MediaPipe
@@ -103,7 +103,7 @@ def open_camera():
 
 # Interface graphique Tkinter
 root = tk.Tk()
-root.title("Sélection de Camera avec Détection de Mains")
+root.title("Selection de Camera avec Detection de Mains")
 
 # Détection des caméras disponibles
 cameras = detect_cameras()
