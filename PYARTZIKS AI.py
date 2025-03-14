@@ -18,8 +18,8 @@ pygame.mixer.init()
 drum_sound = pygame.mixer.Sound("drum.wav") 
 
 drums = [
-    {"pos": (75, 300), "radius": 50, "color": (0, 0, 255), "last_hit": 0},  # Batterie rouge
-    {"pos": (500, 300), "radius": 50, "color": (0, 255, 0), "last_hit": 0},  # Batterie verte
+    {"pos": (75, 300), "radius": 50, "color": (0, 0, 255), "last_hit": 0}, 
+    {"pos": (500, 300), "radius": 50, "color": (0, 255, 0), "last_hit": 0},  
 ]
 
 
@@ -30,7 +30,7 @@ def detect_cameras():
     
     if platform.system() == "Windows":
         try:
-            from pygrabber.dshow_graph import FilterGraph  # Module specifique a Windows
+            from pygrabber.dshow_graph import FilterGraph  
             graph = FilterGraph()
             devices = graph.get_input_devices()
             for index, name in enumerate(devices):
