@@ -1,7 +1,10 @@
-# PYARTZIKS 🎵🎮 ![image](https://github.com/user-attachments/assets/a3cae037-2713-4529-844b-179c2994e6ce)
+# PYARTZIKS 🎵🎮
 
 
 PYARTZIKS est une application interactive et immersive permettant de jouer de la musique en réalité augmentée à l’aide de la détection de mouvements et de sons. Ce projet combine **modélisation 3D**, **reconnaissance des gestes**, **génération de sons** et **enregistrement de performances musicales**.
+
+![image](https://github.com/user-attachments/assets/937d7d18-3b3c-4099-b977-85e300a2b809)
+
 
 ## 🚀 **Fonctionnalités principales**
 ### 🎼 **1. Musik'Défis**
