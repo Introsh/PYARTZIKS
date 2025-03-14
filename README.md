@@ -1,4 +1,5 @@
-# PYARTZIKS 🎵🎮
+# PYARTZIKS 🎵🎮 ![image](https://github.com/user-attachments/assets/a3cae037-2713-4529-844b-179c2994e6ce)
+
 
 PYARTZIKS est une application interactive et immersive permettant de jouer de la musique en réalité augmentée à l’aide de la détection de mouvements et de sons. Ce projet combine **modélisation 3D**, **reconnaissance des gestes**, **génération de sons** et **enregistrement de performances musicales**.
 
@@ -35,7 +36,7 @@ Un espace libre pour expérimenter et créer !
 - **🔹 Pygrabber** : Détection des caméras disponibles.
 
 ## 🥁 **Instruments de musique en réalité augmentée**
-- **Modélisation 3D** des instruments (piano, batterie, guitare, etc.).
+- **Modélisation 3D** des instruments (piano, batterie).
 - **Animations interactives** (ex. touches de piano qui s’enfoncent, baguettes de batterie en mouvement).
 - **Détection des gestes** pour déclencher une note.
 
