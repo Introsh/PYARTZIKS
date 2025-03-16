@@ -1,1 +1,2 @@
 pip install tkinter ttkbootstrap pygame opencv-python mediapipe pygrabber pyopengl numpy
+winget install Python.Python.3.12 --version 3.12.9
