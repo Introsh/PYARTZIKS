@@ -15,7 +15,7 @@ class DrumViewer(ShowBase):
 
         SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
         MODEL_DIR = os.path.join(SCRIPT_DIR, "modele 3D")
-        MODEL_PATH = os.path.join(MODEL_DIR, "drum model.obj")
+        MODEL_PATH = os.path.join(MODEL_DIR, "drum model2.obj")
 
         if not os.path.exists(MODEL_PATH):
             print(f"Erreur : le fichier {MODEL_PATH} n'existe pas.")
