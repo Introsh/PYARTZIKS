@@ -29,6 +29,7 @@ Un espace libre pour expérimenter et créer !
 ## 🎸 **Technologies utilisées**
 - **🔹 Tkinter & ttkbootstrap** : Interface graphique interactive.
 - **🔹 Pygame** : Gestion et lecture des sons.
+- **🔹 Panda3D** : Gestion de modèle 3d.
 
 ## 🥁 **Instruments de musique interactifs**
 - **Modélisation 3D** des instruments (piano, batterie).
