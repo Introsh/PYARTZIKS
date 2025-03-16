@@ -1,201 +1,168 @@
 import tkinter as tk
 import ttkbootstrap as ttk
+from PIL import Image, ImageTk, ImageEnhance
 import pygame
+import os
+import random
 import subprocess
-import os 
 
 pygame.mixer.init()
 
-def zikB1(): #on peut aussi mettre indisponible...
-    print("zikB1")#doit renvoyer a un challenge de Noe
-def zikP1():
-    print("zikP1")
-    
-def zikB2():
-    print("zikB2")
-def zikP2():
-    print("zikP2")
-    
-def stop():
-    pygame.mixer.music.stop()
-    
-def zikB3():
-    pygame.mixer.music.unload()
-    print("zikB3")
-    pygame.mixer.music.load("Bella Ciao.mp3")
-    pygame.mixer.music.play()
-    for widget in frame.winfo_children():
-        widget.destroy()
-    stop_button = ttk.Button(frame, text="stop", command=stop)
-    stop_button.pack(side="left",padx=5)
-    back_button = ttk.Button(frame, text="←", command=challenge)
-    back_button.pack(side="left",padx=20)
-    
-def zikP3():
-    print("zikP3")
-    
-def zik1():
-    for widget in frame.winfo_children():
-        widget.destroy()
-    back_button = ttk.Button(frame, text="←", command=challenge)
-    back_button.pack(side="left",padx=20)
-    batterie_button = ttk.Button(frame, text="Batterie", command=zikB1)
-    batterie_button.pack(side="left", padx=5)
-    piano_button = ttk.Button(frame, text="Piano", command=zikP1)
-    piano_button.pack(side="left", padx=5)
-    
-def zik2():
-    for widget in frame.winfo_children():
-        widget.destroy()
-    back_button = ttk.Button(frame, text="←", command=challenge)
-    back_button.pack(side="left",padx=20)
-    batterie_button = ttk.Button(frame, text="Batterie", command=zikB2)
-    batterie_button.pack(side="left", padx=5)
-    piano_button = ttk.Button(frame, text="Piano", command=zikP2)
-    piano_button.pack(side="left", padx=5)
-    
-def DO():
-    pygame.mixer.music.unload()
-    print("DO")
-    pygame.mixer.music.load("DO.mp3")
-    pygame.mixer.music.play()
-    
-def RE():
-    pygame.mixer.music.unload()
-    print("RE")
-    pygame.mixer.music.load("RE.mp3")
-    pygame.mixer.music.play()
-    
-def MI():
-    pygame.mixer.music.unload()
-    print("MI")
-    pygame.mixer.music.load("MI.mp3")
-    pygame.mixer.music.play()
-    
-def FA():
-    pygame.mixer.music.unload()
-    print("FA")
-    pygame.mixer.music.load("FA.mp3")
-    pygame.mixer.music.play()
-    
-def SOL():
-    pygame.mixer.music.unload()
-    print("SOL")
-    pygame.mixer.music.load("SOL.mp3")
-    pygame.mixer.music.play()
-    
-def LA():
-    pygame.mixer.music.unload()
-    print("LA")
-    pygame.mixer.music.load("LA.mp3")
-    pygame.mixer.music.play()
-    
-def SI():
-    pygame.mixer.music.unload()
-    print("SI")
-    pygame.mixer.music.load("SI.mp3")
-    pygame.mixer.music.play()
-    
-def do():
-    pygame.mixer.music.unload()
-    print("do")
-    pygame.mixer.music.load("dos.mp3")
-    pygame.mixer.music.play()
-    
-def zik3():
-    for widget in frame.winfo_children():
-        widget.destroy()
-    back_button = ttk.Button(frame, text="←", command=challenge)
-    back_button.pack(side="left",padx=20)
-    batterie_button = ttk.Button(frame, text="Batterie", command=zikB3)
-    batterie_button.pack(side="left", padx=5)
-    piano_button = ttk.Button(frame, text="Piano", command=zikP3)
-    piano_button.pack(side="left", padx=5)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ICON_PATH = os.path.join(SCRIPT_DIR, "logo.ico")
 
+root = ttk.Window(themename="superhero")
+root.title("🎶 PYARTZIKS 🎶")
+root.geometry("800x600")
+root.configure(bg="#111111")
 
-def challenge(): #ouvert depuis le MP permet de choisir une musique pr challenge
+GLITCH_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_-+=<>?/"
+FINAL_TEXT = "🎵 PYARTZIKS 🎵"
+
+if os.path.exists(ICON_PATH):
+    root.iconbitmap(ICON_PATH)
+
+glitch_label = ttk.Label(root, text="", font=("Helvetica", 32, "bold"), foreground="white", background="#111111")
+glitch_label.place(relx=0.5, rely=0.4, anchor="center")
+
+logo_path = os.path.join(SCRIPT_DIR, "logo.png")
+logo_image = None
+if os.path.exists(logo_path):
+    original_logo = Image.open(logo_path).convert("RGBA")
+    logo_size = (120, 120)
+    logo_image = original_logo.resize(logo_size, Image.Resampling.LANCZOS)
+
+logo_label = ttk.Label(root, background="#111111")
+logo_label.place_forget()
+
+transition_label = ttk.Label(root, text="▼", font=("Helvetica", 24), foreground="white", background="#111111")
+transition_label.place_forget()
+
+def generate_glitch_text(step=0):
+    if step < len(FINAL_TEXT):
+        glitch_text = "".join(
+            FINAL_TEXT[i] if i < step else random.choice(GLITCH_CHARACTERS)
+            for i in range(len(FINAL_TEXT))
+        )
+        glitch_label.config(text=glitch_text)
+        root.after(80, lambda: generate_glitch_text(step + 1))
+    else:
+        glitch_label.config(text=FINAL_TEXT)
+        root.after(500, show_transition_arrow)
+
+def show_transition_arrow(opacity=0.0):
+    transition_label.place(relx=0.5, rely=0.5, anchor="center")
+    if opacity < 1.0:
+        alpha = int(opacity * 255)
+        transition_label.config(foreground=f"#{alpha:02X}{alpha:02X}{alpha:02X}")
+        root.after(50, lambda: show_transition_arrow(opacity + 0.05))
+    else:
+        root.after(1000, show_logo)
+
+def show_logo(opacity=0.0):
+    if logo_image:
+        faded_logo = logo_image.copy()
+        faded_logo.putalpha(int(opacity * 255))
+        logo_photo = ImageTk.PhotoImage(faded_logo)
+        logo_label.config(image=logo_photo)
+        logo_label.image = logo_photo
+        logo_label.place(relx=0.5, rely=0.75, anchor="center")
+        if opacity < 1.0:
+            root.after(50, lambda: show_logo(opacity + 0.05))
+        else:
+            root.after(2500, fade_out_logo)
+
+def fade_out_logo(opacity=1.0):
+    if opacity > 0:
+        faded_logo = logo_image.copy()
+        faded_logo.putalpha(int(opacity * 255))
+        logo_photo = ImageTk.PhotoImage(faded_logo)
+        logo_label.config(image=logo_photo)
+        logo_label.image = logo_photo
+        root.after(50, lambda: fade_out_logo(opacity - 0.05))
+    else:
+        logo_label.place_forget()
+        root.after(500, fade_out_arrow)
+
+def fade_out_arrow(opacity=1.0):
+    if opacity > 0:
+        alpha = int(opacity * 255)
+        transition_label.config(foreground=f"#{alpha:02X}{alpha:02X}{alpha:02X}")
+        root.after(50, lambda: fade_out_arrow(opacity - 0.05))
+    else:
+        transition_label.place_forget()
+        root.after(500, fade_out_text)
+
+def fade_out_text(opacity=1.0):
+    if opacity > 0:
+        alpha = int(opacity * 255)
+        glitch_label.config(foreground=f"#{alpha:02X}{alpha:02X}{alpha:02X}")
+        root.after(50, lambda: fade_out_text(opacity - 0.05))
+    else:
+        glitch_label.place_forget()
+        create_main_menu()
+
+def clear_frame():
     for widget in frame.winfo_children():
         widget.destroy()
-    back_button = ttk.Button(frame, text="←", command=main)
-    back_button.pack(side="left",padx=20)
-    zik1_button = ttk.Button(frame, text="Zik 1", command=zik1)
-    zik1_button.pack(side="left", padx=5)
-    zik2_button = ttk.Button(frame, text="Zik 2", command=zik2)
-    zik2_button.pack(side="left", padx=5)
-    zik3_button = ttk.Button(frame, text="Zik 3", command=zik3)
-    zik3_button.pack(side="left", padx=5)
-    root.mainloop()
 
-def volP(): #ouvert depuis parametre un nbr de 1 a 10 a voir si c'est comptatible avec le log de son
-    print("Vol+↑ clicked") 
-def volM():
-    print("Vol-↓ clicked")
-
-def credit(): #ouvert depuis parametre renvoie le liens du projet national avec la video
-    print("Crédit clicked")
-
-def parametre(): #ouvert depuis le MP permet de gerer intesité du son, liens vers le projet 
-    for widget in frame.winfo_children():
-        widget.destroy()
-    back_button = ttk.Button(frame, text="←", command=main)
-    back_button.pack(side="left",padx=20)
-    volP_button = ttk.Button(frame, text="Volume ↑", command=volP)
-    volP_button.pack(side="left", padx=5)
-    volM_button = ttk.Button(frame, text="Volume ↓", command=volM)
-    volM_button.pack(side="left", padx=5)
-    credit_button = ttk.Button(frame, text="Crédit", command=credit)
-    credit_button.pack(side="left", padx=5)
-    root.mainloop()
+def create_main_menu():
+    clear_frame()
+    frame.pack(expand=True)
+    ttk.Label(frame, text="🎶 Bienvenue sur PYARTZIKS 🎶", font=("Helvetica", 18, "bold")).pack(pady=10)
+    ttk.Button(frame, text="🎵 Bac à sable", command=sandbox, bootstyle="primary").pack(pady=5, fill="x")
+    ttk.Button(frame, text="🥁 Challenge", command=challenge, bootstyle="success").pack(pady=5, fill="x")
+    ttk.Button(frame, text="⚙ Paramètres", command=parametre, bootstyle="warning").pack(pady=5, fill="x")
 
 def sandbox():
-    for widget in frame.winfo_children():
-        widget.destroy()
-    back_button = ttk.Button(frame, text="←", command=main)
-    back_button.pack(side="left",padx=20)
-    batterie_button = ttk.Button(frame, text="BatterieS", command=Sandboxb)
-    batterie_button.pack(side="left", padx=5)
-    piano_button = ttk.Button(frame, text="PianoS", command=Sandboxp)
-    piano_button.pack(side="left", padx=5)
-def Sandboxb():
-        print("Lancement de PYARTZIKS AI...")
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        pyartziks_path = os.path.join(script_dir, "PYARTZIKS AI.py")
-        subprocess.Popen(["py", pyartziks_path], shell=True)  
-def Sandboxp():
-    for widget in frame.winfo_children():
-        widget.destroy()
-    back_button = ttk.Button(frame, text="←", command=main)
-    back_button.pack(side="left",padx=20)
-    DO_button = ttk.Button(frame, text="DO", command=DO)
-    DO_button.pack(side="left", padx=5)
-    RE_button = ttk.Button(frame, text="RE", command=RE)
-    RE_button.pack(side="left", padx=5)
-    MI_button = ttk.Button(frame, text="MI", command=MI)
-    MI_button.pack(side="left", padx=5)
-    FA_button = ttk.Button(frame, text="FA", command=FA)
-    FA_button.pack(side="left", padx=5)
-    SOL_button = ttk.Button(frame, text="SOL", command=SOL)
-    SOL_button.pack(side="left", padx=5)
-    LA_button = ttk.Button(frame, text="LA", command=LA)
-    LA_button.pack(side="left", padx=5)
-    SI_button = ttk.Button(frame, text="SI", command=SI)
-    SI_button.pack(side="left", padx=5)
-    DO_button = ttk.Button(frame, text="DO", command=do)
-    DO_button.pack(side="left", padx=5)
+    clear_frame()
+    ttk.Label(frame, text="Mode Bac à Sable", font=("Helvetica", 16, "bold")).pack(pady=10)
+    ttk.Button(frame, text="Batterie", command=zikB1).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Piano", command=zikP1).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Retour", command=create_main_menu, bootstyle="danger").pack(pady=5, fill="x")
 
-def main(): #premiere fenetre = menu principal "MP"
-    for widget in frame.winfo_children():
-        widget.destroy()
-    sandbox_button = ttk.Button(frame, text="Sandbox", command=sandbox)
-    sandbox_button.pack(side="left", padx=5)
-    challenge_button = ttk.Button(frame, text="Challenge", command=challenge)
-    challenge_button.pack(side="left", padx=5)
-    parametre_button = ttk.Button(frame, text="Parametre", command=parametre)
-    parametre_button.pack(side="left", padx=5)
-    root.mainloop()
+def challenge():
+    clear_frame()
+    ttk.Label(frame, text="Musik'Défis", font=("Helvetica", 16, "bold")).pack(pady=10)
+    ttk.Button(frame, text="Zik 1", command=zik1).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Zik 2", command=zik2).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Zik 3", command=zik3).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Retour", command=create_main_menu, bootstyle="danger").pack(pady=5, fill="x")
 
-root = ttk.Window(themename="journal")
-root.title("My Application")
-frame = ttk.Frame(root)
-frame.pack(padx=200, pady=40)
-command=main()
+def parametre():
+    clear_frame()
+    ttk.Label(frame, text="Paramètres", font=("Helvetica", 16, "bold")).pack(pady=10)
+    ttk.Button(frame, text="Volume +", command=volP).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Volume -", command=volM).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Crédit", command=credit).pack(pady=5, fill="x")
+    ttk.Button(frame, text="Retour", command=create_main_menu, bootstyle="danger").pack(pady=5, fill="x")
+
+def zikB1():
+    print("Lancement de PYARTZIKS DRUM...")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    pyartziks_path = os.path.join(script_dir, "PYARTZIKS DRUM.py")
+    subprocess.Popen(["py", pyartziks_path], shell=True)  
+def zikP1():
+    print("zikP1")
+
+def zik1():
+    print("zik1")
+
+def zik2():
+    print("zik2")
+
+def zik3():
+    print("zik3")
+
+def volP():
+    print("Volume +")
+
+def volM():
+    print("Volume -")
+
+def credit():
+    print("Crédit affiché")
+
+frame = ttk.Frame(root, padding=20)
+root.after(500, lambda: generate_glitch_text(0))
+root.mainloop()
