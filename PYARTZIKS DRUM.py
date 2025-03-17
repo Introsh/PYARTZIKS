@@ -124,13 +124,22 @@ class DrumViewer(ShowBase):
                 print(f" Objet détecté sous la souris : {pickedObj}")
 
                 if pickedObj.hasNetTag("black_cymbal"):
-                    print("Partie noire cliquée !")
+                    print("Partie noire cliquée ! Changement de couleur en rouge pour 0.5s.")
+                    pickedObj.setColor((1, 0, 0, 1), 1)  
+                    self.taskMgr.doMethodLater(0.5, self.reset_cymbal_color, "ResetCymbalColor", extraArgs=[pickedObj], appendTask=False)
                     return
         
             print(" Aucun objet noir détecté.")
         else:
             print(" La souris n'est pas détectée !")
 
+
+    def reset_cymbal_color(self, cymbal):
+        if cymbal:
+            cymbal_name = cymbal.getName()  
+            print(f"Retour à la couleur noire. ID de la cymbale : {cymbal_name}")
+            cymbal.setColor((0, 0, 0, 1), 1) 
+ 
     
     def on_mouse_press(self):
         if self.mouseWatcher.hasMouse():
