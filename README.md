@@ -41,4 +41,5 @@ Un espace libre pour expérimenter et créer !
 - **Gestion des variations d’intensité** en fonction de la force d'appui.
 - **Mode enregistrement et relecture** pour sauvegarder et écouter ses performances.
 
-
+## 🎤 **Instructions pour le modèle 3D 💻**
+- Il faut **absolument** dézipper le modèle 3D présent dans modele 3D pour pouvoir lancer le logiciel.
