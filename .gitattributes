@@ -1,0 +1,2 @@
+modele 3D/*.obj filter=lfs diff=lfs merge=lfs -text
+modele 3D/*.zip filter=lfs diff=lfs merge=lfs -text
