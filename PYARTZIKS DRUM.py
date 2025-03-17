@@ -1,5 +1,5 @@
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import Filename, AmbientLight, DirectionalLight, Vec4, loadPrcFileData, CollisionTraverser, CollisionNode, CollisionRay, CollisionHandlerQueue
+from panda3d.core import Filename, AmbientLight, DirectionalLight, Vec4, loadPrcFileData, CollisionTraverser, CollisionNode, CollisionRay, CollisionHandlerQueue, TransparencyAttrib
 from direct.task import Task
 import os
 
@@ -27,8 +27,21 @@ class DrumViewer(ShowBase):
             return
 
         print("Modèle chargé avec succès !")
+
         self.drum.reparentTo(self.render)
         self.drum.setScale(2, 2, 2)
+        self.drum.setPos(0, 0, 0)
+        self.remove_specific_cymbal()
+        self.check_overlapping_parts()
+        print("Appel de color_specific_cymbal()")
+        self.color_specific_cymbal()
+        print("Appel de color_parts_manually()")
+        self.color_parts_manually()
+
+        
+        self.drum.setTextureOff(False)
+        self.drum.reparentTo(self.render)
+        self.drum.setScale(2, 2, 2) 
         self.drum.setPos(0, 0, 0)
 
         ambient_light = AmbientLight("ambient_light")
@@ -73,6 +86,7 @@ class DrumViewer(ShowBase):
         self.pickerNode.setFromCollideMask(0x10)  
         self.pickerQueue = CollisionHandlerQueue()
         self.cTrav.addCollider(self.pickerNP, self.pickerQueue)
+    
         
 
     def adjust_camera_to_fit_model(self):
@@ -107,6 +121,101 @@ class DrumViewer(ShowBase):
         self.drum.setTransparency(False)
         self.drum.setTwoSided(True)
 
+    def color_parts_manually(self):
+        parts_colors = {
+            "Circle": {"color": (0.8, 0.8, 0.8, 1), "name": "Gris clair"},
+            "Bolt": {"color": (0.7, 0.7, 0.7, 1), "name": "Gris clair"},
+            "Cube": {"color": (0.6, 0.6, 0.6, 1), "name": "Gris foncé"},
+            "Cylinder": {"color": (0.5, 0.5, 0.5, 1), "name": "Gris très foncé"},
+            "Floor_Shell_1": {"color": (0.3, 0.3, 0.3, 1), "name": "Charbon"},
+            "Shell1": {"color": (0.9, 0.9, 0.9, 1), "name": "Coque gris clair"},
+            "Plane": {"color": (0.5, 0.5, 0.5, 1), "name": "Gris moyen"}
+        }
+        for part_name, color_info in parts_colors.items():
+            nodes = self.drum.findAllMatches(f"**/{part_name}*")
+            if nodes.isEmpty():
+                print(f"⚠️ Partie '{part_name}' non trouvée.")
+            else:
+                for node in nodes:
+                    node.setColor(color_info["color"], 1)
+                    node.setTwoSided(True)
+                    node.setTransparency(False)  
+                    print(f"✅ '{node.getName()}' colorée avec {color_info['name']}.")
+        cymbal_name = "Circle.397"
+        nodes = self.drum.findAllMatches(f"**/{cymbal_name}*")
+        if not nodes.isEmpty():
+            for node in nodes:
+                node.setColor((0, 0, 0, 1))  
+                node.setTransparency(False)  
+                node.setTwoSided(True)  
+                print(f"✅ '{node.getName()}' colorée en noir.")  
+        else:
+            print(f"⚠️ Partie '{cymbal_name}' non trouvée.")
+
+    def remove_specific_cymbal(self):
+        cymbal_name = "Circle.397"  
+        nodes = self.drum.findAllMatches(f"**/{cymbal_name}*")
+
+        if nodes.isEmpty():
+            print(f"⚠️ Partie '{cymbal_name}' non trouvée.")
+        else:
+            for node in nodes:
+                if node.isEmpty():  
+                    print(f"⚠️ Le node '{cymbal_name}' est déjà vide, impossible de le supprimer.")
+                    continue  
+
+                try:
+                    
+                    if node:
+                        print(f"Suppression de '{node.getName()}' de la scène...")
+                        node.removeNode()  
+                        print(f"✅ '{node.getName()}' a été supprimée de la scène.")
+                    else:
+                        print(f"⚠️ Node pour '{cymbal_name}' est invalide ou déjà supprimé.")
+                except Exception as e:
+                    
+                    print(f"⚠️ Impossible de supprimer '{cymbal_name}': {e}")
+
+
+
+
+    def color_specific_cymbal(self):
+        cymbal_name = "Circle.397"  
+        nodes = self.drum.findAllMatches(f"**/{cymbal_name}*")
+
+        if nodes.isEmpty():
+            print(f"⚠️ Partie '{cymbal_name}' non trouvée.")
+        else:
+            for node in nodes:
+                node.setColor((0, 0, 0, 1))  
+                node.setTransparency(TransparencyAttrib.MNone)  
+                node.setTwoSided(True)  
+                print(f"✅ '{node.getName()}' colorée en noir.")
+
+
+    
+    def check_overlapping_parts(self):
+        cymbal_name = "Circle.397"  
+        nodes = self.drum.findAllMatches(f"**/{cymbal_name}*")
+        
+        try:
+            with open("log.txt", "w", encoding="utf-8") as log_file:
+                if nodes.isEmpty():
+                    log_file.write(f"⚠️ Partie '{cymbal_name}' non trouvée.\n")
+                else:
+                    for node in nodes:
+                        log_file.write(f"✅ '{node.getName()}' trouvé.\n")
+                        
+                        position = node.getPos()
+                        log_file.write(f"Position de {node.getName()}: {position}\n")
+                        for other_node in self.drum.findAllMatches("**/*"):
+                            if other_node != node and other_node.getPos().z > position.z:
+                                log_file.write(f"⛔ Un autre objet {other_node.getName()} est au-dessus de '{node.getName()}' à la position {other_node.getPos()}\n")
+        except Exception as e:
+            print(f"Erreur lors de l'écriture du fichier log.txt : {e}")
+
+
+
     def check_black_click(self):
         print(" Barre espace appuyée - Vérification de la position de la souris...")
 
@@ -138,7 +247,7 @@ class DrumViewer(ShowBase):
         if cymbal:
             cymbal_name = cymbal.getName()  
             print(f"Retour à la couleur noire. ID de la cymbale : {cymbal_name}")
-            cymbal.setColor((0, 0, 0, 1), 1) 
+            cymbal.setColor((0, 0, 0, 1), 1)  
  
     
     def on_mouse_press(self):
