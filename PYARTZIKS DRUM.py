@@ -140,7 +140,7 @@ class DrumViewer(ShowBase):
                     node.setColor(color_info["color"], 1)
                     node.setTwoSided(True)
                     node.setTransparency(False)  
-                    print(f"✅ '{node.getName()}' colorée avec {color_info['name']}.")
+                    print(f" '{node.getName()}' colorée avec {color_info['name']}.")
         cymbal_name = "Circle.397"
         nodes = self.drum.findAllMatches(f"**/{cymbal_name}*")
         if not nodes.isEmpty():
@@ -148,20 +148,20 @@ class DrumViewer(ShowBase):
                 node.setColor((0, 0, 0, 1))  
                 node.setTransparency(False)  
                 node.setTwoSided(True)  
-                print(f"✅ '{node.getName()}' colorée en noir.")  
+                print(f" '{node.getName()}' colorée en noir.")  
         else:
-            print(f"⚠️ Partie '{cymbal_name}' non trouvée.")
+            print(f" Partie '{cymbal_name}' non trouvée.")
 
     def remove_specific_cymbal(self):
         cymbal_name = "Circle.397"  
         nodes = self.drum.findAllMatches(f"**/{cymbal_name}*")
 
         if nodes.isEmpty():
-            print(f"⚠️ Partie '{cymbal_name}' non trouvée.")
+            print(f" Partie '{cymbal_name}' non trouvée.")
         else:
             for node in nodes:
                 if node.isEmpty():  
-                    print(f"⚠️ Le node '{cymbal_name}' est déjà vide, impossible de le supprimer.")
+                    print(f" Le node '{cymbal_name}' est déjà vide, impossible de le supprimer.")
                     continue  
 
                 try:
@@ -169,12 +169,12 @@ class DrumViewer(ShowBase):
                     if node:
                         print(f"Suppression de '{node.getName()}' de la scène...")
                         node.removeNode()  
-                        print(f"✅ '{node.getName()}' a été supprimée de la scène.")
+                        print(f" '{node.getName()}' a été supprimée de la scène.")
                     else:
-                        print(f"⚠️ Node pour '{cymbal_name}' est invalide ou déjà supprimé.")
+                        print(f" Node pour '{cymbal_name}' est invalide ou déjà supprimé.")
                 except Exception as e:
                     
-                    print(f"⚠️ Impossible de supprimer '{cymbal_name}': {e}")
+                    print(f" Impossible de supprimer '{cymbal_name}': {e}")
 
 
 
@@ -184,13 +184,13 @@ class DrumViewer(ShowBase):
         nodes = self.drum.findAllMatches(f"**/{cymbal_name}*")
 
         if nodes.isEmpty():
-            print(f"⚠️ Partie '{cymbal_name}' non trouvée.")
+            print(f" Partie '{cymbal_name}' non trouvée.")
         else:
             for node in nodes:
                 node.setColor((0, 0, 0, 1))  
                 node.setTransparency(TransparencyAttrib.MNone)  
                 node.setTwoSided(True)  
-                print(f"✅ '{node.getName()}' colorée en noir.")
+                print(f" '{node.getName()}' colorée en noir.")
 
 
     
@@ -201,16 +201,16 @@ class DrumViewer(ShowBase):
         try:
             with open("log.txt", "w", encoding="utf-8") as log_file:
                 if nodes.isEmpty():
-                    log_file.write(f"⚠️ Partie '{cymbal_name}' non trouvée.\n")
+                    log_file.write(f" Partie '{cymbal_name}' non trouvée.\n")
                 else:
                     for node in nodes:
-                        log_file.write(f"✅ '{node.getName()}' trouvé.\n")
+                        log_file.write(f" '{node.getName()}' trouvé.\n")
                         
                         position = node.getPos()
                         log_file.write(f"Position de {node.getName()}: {position}\n")
                         for other_node in self.drum.findAllMatches("**/*"):
                             if other_node != node and other_node.getPos().z > position.z:
-                                log_file.write(f"⛔ Un autre objet {other_node.getName()} est au-dessus de '{node.getName()}' à la position {other_node.getPos()}\n")
+                                log_file.write(f"  Un autre objet {other_node.getName()} est au-dessus de '{node.getName()}' à la position {other_node.getPos()}\n")
         except Exception as e:
             print(f"Erreur lors de l'écriture du fichier log.txt : {e}")
 
