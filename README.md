@@ -2,7 +2,8 @@
 
 **PYARTZIKS** est une application musicale interactive en 3D centrée sur un **piano virtuel**.  
 Elle propose un mode défi pour tester votre précision rythmique, ainsi qu’un **mode bac à sable** permettant de **composer vos propres morceaux et créer des niveaux personnalisés à partager**.
-A partir de là, **c'est à vous de jouer !** :)
+
+A partir de là, **c'est à vous de jouer !**
 
 ![image](https://github.com/user-attachments/assets/937d7d18-3b3c-4099-b977-85e300a2b809)
 
