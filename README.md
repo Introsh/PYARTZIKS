@@ -1,45 +1,67 @@
-# PYARTZIKS 🎵🎮
+# 🎵 PYARTZIKS
 
-PYARTZIKS est une application interactive et immersive permettant de jouer de la musique via une interface dynamique et réactive. Ce projet combine **modélisation 3D**, **génération de sons**, **défis musicaux** et **enregistrement de performances musicales**.
+**PYARTZIKS** est une application musicale interactive en 3D centrée sur un **piano virtuel**.  
+Elle propose un mode défi pour tester votre précision rythmique, ainsi qu’un **mode bac à sable** permettant de **composer vos propres morceaux et créer des niveaux personnalisés à partager**.
 
 ![image](https://github.com/user-attachments/assets/937d7d18-3b3c-4099-b977-85e300a2b809)
 
-## 🚀 **Fonctionnalités principales**
-### 🎼 **1. Musik'Défis**
-Un mode **défi musical** pour tester vos compétences !  
-- Sélectionnez un instrument et un morceau prédéfini.
-- Une **partition simplifiée** s'affiche.
-- Un **système de reconnaissance sonore** vérifie si la note jouée correspond à celle affichée.
-- **Si la note est fausse, le défi s’arrête**.
+---
 
-### 🎹 **2. Bac à sable (Sandbox)**
-Un espace libre pour expérimenter et créer !  
-- Sélectionnez un instrument (piano, batterie, etc.).
-- Un **bouton "Enregistrer votre performance"** permet :
-  - **Enregistrement des notes jouées** dans un fichier texte (`1) Do, 2) Ré, ...`).
-  - **Enregistrement audio** stocké dans un dossier `Enregistrements`.
-  - **Possibilité de nommer son enregistrement avant sauvegarde**.
+## ▶️ Comment lancer le projet
 
-### 🎵 **3. Lecture et partage (à confirmer)**
-- Accédez à un menu listant **vos enregistrements précédents**.
-- Si aucun enregistrement n’a été fait, un **message d’information** apparaît.
-- Possibilité de **réécouter** et **partager** ses créations.
-- (Optionnel) **Système de "quête"** débloquant cette fonctionnalité après un premier enregistrement.
+1. **Installer Python**  
+   Le projet requiert **Python 3.12.9**.  
+   Pour l’installer sous Windows, utilisez cette commande :
 
-## 🎸 **Technologies utilisées**
-- **🔹 Tkinter & ttkbootstrap** : Interface graphique interactive.
-- **🔹 Pygame** : Gestion et lecture des sons.
-- **🔹 Panda3D** : Gestion de modèle 3d.
+   ```bash
+   winget install Python.Python.3.12 --version 3.12.9
+   ```
 
-## 🥁 **Instruments de musique interactifs**
-- **Modélisation 3D** des instruments (piano, batterie).
-- **Animations interactives** (ex. touches de piano qui s’enfoncent, baguettes de batterie en mouvement).
-- **Système réactif** pour déclencher une note.
+2. **Installer les bibliothèques nécessaires**  
+   Dans le terminal, exécutez :
 
-## 🎤 **Génération et enregistrement des sons**
-- **Banque de sons réalistes** pour chaque instrument.
-- **Gestion des variations d’intensité** en fonction de la force d'appui.
-- **Mode enregistrement et relecture** pour sauvegarder et écouter ses performances.
+   ```bash
+   pip install panda3d pygame ttkbootstrap Pillow
+   ```
 
-## ✅ **Instructions pour le modèle 3D 💻**
-- Il faut **absolument** dézipper le modèle 3D présent dans modele 3D pour pouvoir lancer le logiciel.
+3. **Lancer le projet**  
+   Depuis le dossier du projet, lancez :
+
+   ```bash
+   python main.py
+   ```
+
+   Le menu principal s’ouvrira et vous permettra d’accéder :
+   - au **mode bac à sable** pour créer des séquences personnalisées,
+   - au **mode défi** pour tester votre timing.
+
+---
+
+## 📁 Fichiers principaux
+
+- `main.py` : Menu principal de l’application
+- `PYARTZIKS PIANO.py` : Piano 3D interactif avec notes générées et sons
+- `sons/` : Dossier contenant les sons `.wav` pour chaque touche du piano
+- `modele 3D/` : Dossier contenant le modèle 3D du piano
+
+---
+
+## 🐍 Version Python recommandée
+
+Le projet est compatible avec **Python 3.12.9**.  
+Certaines bibliothèques comme **Panda3D** ou **ttkbootstrap** peuvent ne pas fonctionner correctement avec d’autres versions.
+
+---
+
+## 🎧 Dépendances techniques
+
+- `panda3d` : affichage 3D du piano et des notes
+- `pygame` : lecture des sons associés aux touches
+- `ttkbootstrap` : interface graphique avec menus stylisés
+- `Pillow` : affichage du logo et effets visuels
+
+---
+
+## 👤 Auteur
+
+Projet développé par [Introsh](https://github.com/Introsh)
