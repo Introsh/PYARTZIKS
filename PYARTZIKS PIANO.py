@@ -452,4 +452,8 @@ class PianoViewer(ShowBase):
         
 if __name__ == "__main__":
         app = PianoViewer()
+<<<<<<< HEAD
         app.run()
+=======
+        app.run()
+>>>>>>> a4975d9f6e1458185235d1525dd2e873ce602bf4
