@@ -9,7 +9,27 @@ import subprocess
 pygame.mixer.init()
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_PATH = os.path.join(SCRIPT_DIR, "volume.cfg")
+
+def load_volume():
+    if os.path.exists(CONFIG_PATH):
+        try:
+            with open(CONFIG_PATH, "r") as f:
+                v = float(f.read())
+                return max(0.0, min(1.0, v))  # clamp entre 0.0 et 1.0
+        except:
+            return 0.5
+    return 0.5
+
+def save_volume(volume):
+    with open(CONFIG_PATH, "w") as f:
+        f.write(str(volume))
 ICON_PATH = os.path.join(SCRIPT_DIR, "logo.ico")
+
+
+
+GLOBAL_VOLUME = 0.5  
+
 
 root = ttk.Window(themename="superhero")
 root.title("🎶 PYARTZIKS 🎶")
@@ -117,7 +137,6 @@ def create_main_menu():
 def sandbox():
     clear_frame()
     ttk.Label(frame, text="Mode Bac à Sable", font=("Helvetica", 16, "bold")).pack(pady=10)
-    ttk.Button(frame, text="Batterie", command=zikB1).pack(pady=5, fill="x")
     ttk.Button(frame, text="Piano", command=zikP1).pack(pady=5, fill="x")
     ttk.Button(frame, text="Retour", command=create_main_menu, bootstyle="danger").pack(pady=5, fill="x")
 
@@ -136,14 +155,12 @@ def parametre():
     ttk.Button(frame, text="Volume -", command=volM).pack(pady=5, fill="x")
     ttk.Button(frame, text="Crédit", command=credit).pack(pady=5, fill="x")
     ttk.Button(frame, text="Retour", command=create_main_menu, bootstyle="danger").pack(pady=5, fill="x")
-
-def zikB1():
-    print("Lancement de PYARTZIKS DRUM...")
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    pyartziks_path = os.path.join(script_dir, "PYARTZIKS DRUM.py")
-    subprocess.Popen(["py", pyartziks_path], shell=True)  
+ 
 def zikP1():
-    print("zikP1")
+    print("Lancement de PYARTZIKS Piano...")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    pyartziks_path = os.path.join(script_dir, "PYARTZIKS PIANO.py")
+    subprocess.Popen(["py", pyartziks_path], shell=True) 
 
 def zik1():
     print("zik1")
@@ -155,10 +172,16 @@ def zik3():
     print("zik3")
 
 def volP():
-    print("Volume +")
+    global GLOBAL_VOLUME
+    GLOBAL_VOLUME = min(1.0, GLOBAL_VOLUME + 0.1)
+    pygame.mixer.music.set_volume(GLOBAL_VOLUME)
+    print(f"🔊 Volume augmenté : {GLOBAL_VOLUME:.1f}")
 
 def volM():
-    print("Volume -")
+    global GLOBAL_VOLUME
+    GLOBAL_VOLUME = max(0.0, GLOBAL_VOLUME - 0.1)
+    pygame.mixer.music.set_volume(GLOBAL_VOLUME)
+    print(f"🔉 Volume diminué : {GLOBAL_VOLUME:.1f}")
 
 def credit():
     print("Crédit affiché")
