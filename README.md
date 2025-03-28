@@ -21,7 +21,7 @@ Elle propose un mode défi pour tester votre précision rythmique, ainsi qu’un
    Dans le terminal, exécutez :
 
    ```bash
-   pip install panda3d pygame ttkbootstrap Pillow
+   pip install panda3d pygame ttkbootstrap Pillow ou pip 
    ```
 
 3. **Lancer le projet**  
@@ -64,4 +64,4 @@ Certaines bibliothèques comme **Panda3D** ou **ttkbootstrap** peuvent ne pas fo
 
 ## 👤 Auteur
 
-Projet développé par [Introsh](https://github.com/Introsh)
+Projet développé par l'équipe Tchikita
