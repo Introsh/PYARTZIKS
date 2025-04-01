@@ -67,3 +67,7 @@ Certaines bibliothèques comme **Panda3D** ou **ttkbootstrap** peuvent ne pas fo
 ## 👤 Auteur
 
 Projet développé par l'équipe Tchikita
+
+
+## 🎥 Vidéo présentation 
+https://youtu.be/XaN6AxuhEvc?si=3tpHuOWKnNV4q2pd
