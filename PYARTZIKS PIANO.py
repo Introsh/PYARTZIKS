@@ -18,11 +18,11 @@ class Note:
                 print(f"⚠️ Problème : {self.nom_cible} non trouvé !")
                 return
 
-            # Position cible
+            
             self.position_cible = noeud_cible.getBounds().getCenter()
             self.position_cible = noeud_cible.getParent().getMat(self.jeu.render).xformPoint(self.position_cible)
 
-            # Position d'apparition : très haut
+            
             hauteur_apparition = 30.0
             position_apparition = LVector3(self.position_cible.x, self.position_cible.y + hauteur_apparition, self.position_cible.z)
             self.modele.setPos(position_apparition)
@@ -114,7 +114,7 @@ class PianoViewer(ShowBase):
             REPERTOIRE_SCRIPT = os.path.dirname(os.path.abspath(__file__))
             REPERTOIRE_SONS = os.path.join(REPERTOIRE_SCRIPT, "sons")
 
-            # Chargement automatique des sons nommés pCubeXX.wav
+            
             for fichier in os.listdir(REPERTOIRE_SONS):
                 if fichier.endswith(".wav") and fichier.startswith("pCube"):
                     nom_touche = fichier.replace(".wav", "")
@@ -205,9 +205,9 @@ class PianoViewer(ShowBase):
                 if canal:
                     canal.play(son)
                 else:
-                    print(f"❌ Aucun canal libre pour jouer {nom_touche}")
+                    print(f"Aucun canal libre pour jouer {nom_touche}")
             else:
-                print(f"❌ Aucun son associé à {nom_touche} ou musique désactivée")
+                print(f" Aucun son associé à {nom_touche} ou musique désactivée")
 
         def colorer_touches_manuellement(self):
             touches_noires = ["pCube1", "pCube33", "pCube52", "pCube53", "pCube54", "pCube55", "pCube56", "pCube57", "pCube58", "pCube59", "pCube60"]
@@ -235,7 +235,7 @@ class PianoViewer(ShowBase):
             touche = self.piano.find("**/pCube1")
             if not touche.isEmpty():
                 touche.node().setIntoCollideMask(0)
-                print("🔒 Interaction désactivée pour pCube1")
+                print("Interaction désactivée pour pCube1")
 
         def creer_menu_deroulant(self):
             self.touches_noires = ["pCube33", "pCube52", "pCube53", "pCube54", "pCube55", "pCube56", "pCube57", "pCube58", "pCube59", "pCube60"]
@@ -255,8 +255,8 @@ class PianoViewer(ShowBase):
 
         def generer_note_selectionnee(self, touche_selectionnee):
             self.derniere_touche_selectionnee = touche_selectionnee
-            print(f"🔁 Total notes actives : {len(self.notes_actives)}")
-            print(f"🧱 Note créée depuis bouton : {self.derniere_touche_selectionnee}")
+            print(f" Total notes actives : {len(self.notes_actives)}")
+            print(f" Note créée depuis bouton : {self.derniere_touche_selectionnee}")
 
         def clic_bouton_generer_note(self):
             if hasattr(self, 'derniere_touche_selectionnee'):
@@ -265,7 +265,7 @@ class PianoViewer(ShowBase):
                 est_noire = noeud_touche.hasNetTag("touche_noire")
                 note = Note(self, nom_touche, est_speciale=est_noire)
                 self.notes_actives.append(note)
-                print(f"🧱 Généré vers {nom_touche} | Couleur: {'noire' if est_noire else 'blanche'}")
+                print(f"Généré vers {nom_touche} | Couleur: {'noire' if est_noire else 'blanche'}")
 
         def creer_boutons(self):
             self.bouton_generer = DirectButton(
@@ -373,10 +373,10 @@ class PianoViewer(ShowBase):
                         centre_touche = noeud_touche.getBounds().getCenter()
                         centre_touche = noeud_touche.getParent().getMat(self.render).xformPoint(centre_touche)
 
-                        print(f"✅ Touche pressée : {nom_touche}")
+                        print(f"Touche pressée : {nom_touche}")
                         self.jouer_son_touche(nom_touche)
                         if centre_touche is not None:
-                            print(f"📍 Position touche : {centre_touche}")
+                            print(f" Position touche : {centre_touche}")
 
                         objet_selectionne.setColor((1, 0, 0, 1), 1)
                         self.taskMgr.doMethodLater(0.3, self.reinitialiser_couleur, "reinitialiserCouleurTouche", extraArgs=[objet_selectionne], appendTask=False)
@@ -391,13 +391,13 @@ class PianoViewer(ShowBase):
         def afficher_info_camera(self):
             print(f"Position Camera: {self.camera.getPos()} | Orientation: {self.camera.getHpr()}")
 
-        def on_mouse_press(self):  # Anciennement souris_appuyee
+        def on_mouse_press(self):  
             if self.mouseWatcher.hasMouse():
-                self.souris_appuyee = True  # Garder le même nom d'attribut
+                self.souris_appuyee = True  
                 self.dernier_x_souris = self.mouseWatcher.getMouseX()
                 self.dernier_y_souris = self.mouseWatcher.getMouseY()
 
-        def on_mouse_release(self):  # Anciennement souris_relachee
+        def on_mouse_release(self):  
             self.souris_appuyee = False
 
         def mettre_a_jour_camera(self, tache):
@@ -437,7 +437,7 @@ class PianoViewer(ShowBase):
             return tache.cont
 
         def verifier_touche(self, nom_touche):
-            print(f"✅ verifier_touche appelé pour {nom_touche}")
+            print(f"verifier_touche appelé pour {nom_touche}")
             return True
         
 if __name__ == "__main__":
