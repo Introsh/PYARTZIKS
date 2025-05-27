@@ -15,7 +15,7 @@ class Note:
 
             noeud_cible = self.jeu.piano.find(f"**/{self.nom_cible}")
             if noeud_cible.isEmpty():
-                print(f"⚠️ Problème : {self.nom_cible} non trouvé !")
+                print(f"Problème : {self.nom_cible} non trouvé !")
                 return
 
             
@@ -70,7 +70,7 @@ class Note:
 
             # Disparition automatique après 5 secondes
             if temps_actuel - self.temps_apparition > 5:
-                print(f"⌛ Note {self.nom_cible} expirée.")
+                print(f" Note {self.nom_cible} expirée.")
                 self.toucher_cible()
                 return tache.done
 
@@ -97,12 +97,14 @@ class Note:
 class PianoViewer(ShowBase):
 
         def obtenir_volume_global(self):
+            SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+            SON_PATH = os.path.join(SCRIPT_DIR, "data", "son.txt")
             try:
-                from main import GLOBAL_VOLUME
-                return GLOBAL_VOLUME
+                with open(SON_PATH, "r") as f:
+                    return float(f.read())
             except:
                 return 0.5
-
+    
         def __init__(self):
             loadPrcFileData("", "window-title PYARTZIKS - Piano - Sandbox")
             loadPrcFileData("", "icon-filename logo.ico")
@@ -122,9 +124,9 @@ class PianoViewer(ShowBase):
                     try:
                         self.sons[nom_touche] = pygame.mixer.Sound(chemin_complet)
                         self.sons[nom_touche].set_volume(self.obtenir_volume_global())
-                        print(f"🔊 Son chargé : {nom_touche}")
+                        print(f"Son chargé : {nom_touche}")
                     except Exception as e:
-                        print(f"❌ Erreur de chargement pour {fichier} : {e}")
+                        print(f"Erreur de chargement pour {fichier} : {e}")
 
             self.score = 0
             self.cTrav = CollisionTraverser()
@@ -151,9 +153,9 @@ class PianoViewer(ShowBase):
             if os.path.exists(REPERTOIRE_TEXTURES):
                 self.piano.clearTexture()
                 self.piano.setTextureOff(False)
-                print("🎨 Textures automatiques conservées depuis le dossier .dae.")
+                print(" Textures automatiques conservées depuis le dossier .dae.")
             else:
-                print("⚠️ Aucun dossier 'textures' détecté à côté de model.dae")
+                print("Aucun dossier 'textures' détecté à côté de model.dae")
 
             self.configurer_eclairage()
             self.colorer_touches_manuellement()
