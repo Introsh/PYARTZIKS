@@ -210,7 +210,7 @@ class PianoViewer(ShowBase):
                 volume = self.obtenir_volume_global()
                 son = self.sons[nom_touche]
                 son.set_volume(volume)
-                print(f"🔊 Lecture de {nom_touche} à volume {volume:.2f}")
+                print(f" Lecture de {nom_touche} à volume {volume:.2f}")
 
                 canal = pygame.mixer.find_channel(True)
                 if canal:
@@ -360,7 +360,7 @@ class PianoViewer(ShowBase):
 
             if self.musique_activee:
                 sauvegarder_volume_dans_fichier(0.5)
-                print("🔁 Volume réinitialisé à 0.5 dans son.txt")
+                print(" Volume réinitialisé à 0.5 dans son.txt")
 
         def configurer_detection_clic(self):
             self.noeud_selection = CollisionNode('rayon_souris')
