@@ -1,34 +1,43 @@
 import tkinter as tk
 import ttkbootstrap as ttk
 from PIL import Image, ImageTk, ImageEnhance
-import pygame
+import pygame   
 import os
 import random
 import subprocess
+
+animation_skipped = False
 
 pygame.mixer.init()
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONFIG_PATH = os.path.join(SCRIPT_DIR, "volume.cfg")
+DATA_DIR = os.path.join(SCRIPT_DIR, "data")
+SON_PATH = os.path.join(DATA_DIR, "son.txt")
 
-def load_volume():
-    if os.path.exists(CONFIG_PATH):
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
+
+def lire_volume_depuis_fichier():
+    if os.path.exists(SON_PATH):
         try:
-            with open(CONFIG_PATH, "r") as f:
-                v = float(f.read())
-                return max(0.0, min(1.0, v))  # clamp entre 0.0 et 1.0
+            with open(SON_PATH, "r") as f:
+                return float(f.read())
         except:
             return 0.5
     return 0.5
 
-def save_volume(volume):
-    with open(CONFIG_PATH, "w") as f:
+def sauvegarder_volume_dans_fichier(volume):
+    with open(SON_PATH, "w") as f:
         f.write(str(volume))
+
+
 ICON_PATH = os.path.join(SCRIPT_DIR, "logo.ico")
 
 
 
-GLOBAL_VOLUME = 0.5  
+GLOBAL_VOLUME = lire_volume_depuis_fichier()
+pygame.mixer.music.set_volume(GLOBAL_VOLUME)
 
 
 root = ttk.Window(themename="superhero")
@@ -58,7 +67,20 @@ logo_label.place_forget()
 transition_label = ttk.Label(root, text="▼", font=("Helvetica", 24), foreground="white", background="#111111")
 transition_label.place_forget()
 
+
+def skip_animation(event=None):
+    global animation_skipped
+    animation_skipped = True
+
 def generate_glitch_text(step=0):
+    
+    if animation_skipped:
+        glitch_label.place_forget()
+        transition_label.place_forget()
+        logo_label.place_forget()
+        create_main_menu()
+        return
+
     if step < len(FINAL_TEXT):
         glitch_text = "".join(
             FINAL_TEXT[i] if i < step else random.choice(GLITCH_CHARACTERS)
@@ -175,17 +197,29 @@ def volP():
     global GLOBAL_VOLUME
     GLOBAL_VOLUME = min(1.0, GLOBAL_VOLUME + 0.1)
     pygame.mixer.music.set_volume(GLOBAL_VOLUME)
+    sauvegarder_volume_dans_fichier(GLOBAL_VOLUME)
     print(f"🔊 Volume augmenté : {GLOBAL_VOLUME:.1f}")
 
 def volM():
     global GLOBAL_VOLUME
     GLOBAL_VOLUME = max(0.0, GLOBAL_VOLUME - 0.1)
     pygame.mixer.music.set_volume(GLOBAL_VOLUME)
+    sauvegarder_volume_dans_fichier(GLOBAL_VOLUME)
     print(f"🔉 Volume diminué : {GLOBAL_VOLUME:.1f}")
 
 def credit():
-    print("Crédit affiché")
+    clear_frame()
+    ttk.Label(frame, text="Crédits", font=("Helvetica", 16, "bold")).pack(pady=10)
+    ttk.Label(frame, text="🎨 Design et Développement :", font=("Helvetica", 12)).pack(pady=2)
+    ttk.Label(frame, text="Maher OSMAN et Naël MANTELLE", font=("Helvetica", 12, "italic")).pack(pady=2)
+    ttk.Label(frame, text="🎵 Sons et musique :", font=("Helvetica", 12)).pack(pady=2)
+    ttk.Label(frame, text="AKAI LPK25 & Bibliothèque d’échantillons libres", font=("Helvetica", 12, "italic")).pack(pady=2)
+    ttk.Label(frame, text="🛠 Librairies utilisées :", font=("Helvetica", 12)).pack(pady=2)
+    ttk.Label(frame, text="Panda3D, Pygame, Tkinter, ttkbootstrap,", font=("Helvetica", 12, "italic")).pack(pady=1)
+    ttk.Label(frame, text="Pillow, subprocess, os, random", font=("Helvetica", 12, "italic")).pack(pady=1)
+    ttk.Button(frame, text="Retour", command=parametre, bootstyle="danger").pack(pady=10, fill="x")
 
 frame = ttk.Frame(root, padding=20)
+root.bind("<Button-1>", skip_animation)
 root.after(500, lambda: generate_glitch_text(0))
 root.mainloop()
