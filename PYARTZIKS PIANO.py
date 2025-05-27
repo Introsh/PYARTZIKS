@@ -5,6 +5,7 @@ from direct.gui.DirectGui import DirectButton, DirectOptionMenu, DirectSlider, D
 import pygame
 import os
 
+
 class Note:
         def __init__(self, jeu, nom_cible, est_speciale=False):
             self.jeu = jeu
@@ -93,6 +94,14 @@ class Note:
 
             return tache.cont
 
+def sauvegarder_volume_dans_fichier(volume):
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    SON_PATH = os.path.join(SCRIPT_DIR, "data", "son.txt")
+    try:
+        with open(SON_PATH, "w") as f:
+            f.write(str(volume))
+    except Exception as e:
+        print(f"Erreur lors de la sauvegarde de son.txt : {e}")
 
 class PianoViewer(ShowBase):
 
@@ -348,6 +357,10 @@ class PianoViewer(ShowBase):
         def basculer_musique(self):
             self.musique_activee = not self.musique_activee
             print("Musique activée" if self.musique_activee else "Musique désactivée")
+
+            if self.musique_activee:
+                sauvegarder_volume_dans_fichier(0.5)
+                print("🔁 Volume réinitialisé à 0.5 dans son.txt")
 
         def configurer_detection_clic(self):
             self.noeud_selection = CollisionNode('rayon_souris')
