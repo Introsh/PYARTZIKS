@@ -62,11 +62,7 @@ Certaines bibliothèques comme **Panda3D** ou **ttkbootstrap** peuvent ne pas fo
 - `ttkbootstrap` : interface graphique avec menus stylisés
 - `Pillow` : affichage du logo et effets visuels
 
----
 
-## 👤 Auteur
-
-Projet développé par l'équipe Tchikita
 
 
 ## 🎥 Vidéo présentation 
